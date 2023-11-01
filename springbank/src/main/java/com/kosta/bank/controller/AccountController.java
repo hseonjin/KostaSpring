@@ -8,53 +8,104 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class AccountController {
     @Autowired
     private AccountService accountService;
-    // main 페이지를 열어주는 메소드
+
     @RequestMapping(value="/", method= RequestMethod.GET)
     public String main() {
         return "main";
     }
-    // 계좌개설 페이지를 get 방식으로 불러오는 메소드
+
     @RequestMapping(value="makeAccount", method = RequestMethod.GET)
     public String makeAccount() {
         return "makeAccount";
     }
-    // makeAccount Post
+
     @RequestMapping(value="makeAccount", method = RequestMethod.POST)
-    public String makeAccount(@ModelAttribute Account acc, Model model) {
+    public String makeAccount(@ModelAttribute Account sacc, Model model) {
         try {
-            accountService.makeAccount(acc);
-            Account sacc = accountService.accountInfo(acc.getId());
+            accountService.makeAccount(sacc);
+            Account acc = accountService.accountInfo(sacc.getId());
             model.addAttribute("acc", acc);
             return "accountInfo";
         } catch (Exception e) {
             e.printStackTrace();
-//            model.addAttribute("err", "계좌개설 실패");
+            model.addAttribute("err", "계좌개설 실패");
             return "error";
         }
     }
-    // 입금
+
     @RequestMapping(value="deposit", method = RequestMethod.GET)
     public String deposit() {
         return "deposit";
     }
-    // 출금
+
+    @RequestMapping(value="deposit", method = RequestMethod.POST)
+    public String deposit(@RequestParam("id") String id, @RequestParam("balance") Integer balance, Model model) {
+        try {
+            accountService.deposit(id, balance);
+            Account acc = accountService.accountInfo(id);
+            model.addAttribute("acc", acc);
+            return "accountInfo";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
     @RequestMapping(value="withdraw", method = RequestMethod.GET)
     public String withdraw() {
         return "withdraw";
     }
-    // 출금
+
+    @RequestMapping(value="withdraw", method = RequestMethod.POST)
+    public String withdraw(@RequestParam("id") String id, @RequestParam("balance") Integer balance, Model model) {
+        try {
+            accountService.withdraw(id, balance);
+            Account acc = accountService.accountInfo(id);
+            model.addAttribute("acc", acc);
+            return "accountInfo";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
     @RequestMapping(value="accountInfo", method = RequestMethod.GET)
     public String accountInfo() {
         return "accountInfoForm";
     }
-    // 출금
+
+    @RequestMapping(value="accountInfo", method = RequestMethod.POST)
+    public String accountInfo(@RequestParam("id") String id, Model model) {
+        try {
+            Account acc = accountService.accountInfo(id);
+            model.addAttribute("acc", acc);
+            return "accountInfo";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("err", "계좌오류");
+            return "error";
+        }
+    }
+
     @RequestMapping(value="allAccountInfo", method = RequestMethod.GET)
-    public String allAccountInfo() {
-        return "allAccountInfo";
+    public String allAccountInfo(Model model) {
+
+        try {
+            List<Account> accs = accountService.allAccountInfo();
+            model.addAttribute("accs", accs);
+            return "allAccountInfo";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("err", "전체계좌조회 실패");
+            return "error";
+        }
     }
 }

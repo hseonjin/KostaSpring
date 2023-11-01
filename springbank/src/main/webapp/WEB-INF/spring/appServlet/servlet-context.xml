@@ -30,5 +30,14 @@
 	<beans:bean id="accountService" class="com.kosta.bank.service.AccountServiceImpl">
 		<beans:property name="accountDAO" ref="accountDAO"/>
 	</beans:bean>
-	
+
+	<beans:bean id="memberDAO" class="com.kosta.bank.dao.MemberDAOImpl" >
+		<beans:property name="sqlSession" ref="sqlSession"/>
+	</beans:bean>
+
+	<beans:bean id="memberService" class="com.kosta.bank.service.MemberServiceImpl">
+		<beans:property name="memberDAO" ref="memberDAO"/>
+	</beans:bean>
+
+
 </beans:beans>

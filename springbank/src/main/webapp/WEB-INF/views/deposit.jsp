@@ -30,7 +30,7 @@ form {
 			</tr>
 			<tr>
 				<td class="label">입금액</td>
-				<td><input type="text" name="money" id="money"></td>
+				<td><input type="text" name="balance" id="balance"></td>
 			</tr>
 		</table>
 		<p><input type="submit" value="입금"></p>

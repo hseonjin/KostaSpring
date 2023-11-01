@@ -34,7 +34,7 @@ form {
 			</tr>
 			<tr>
 				<td class="label">출금액</td>
-				<td><input type="text" name="money" id="money"></td>
+				<td><input type="text" name="balance" id="balance"></td>
 			</tr>
 		</table>
 		<p>

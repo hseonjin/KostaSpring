@@ -1,4 +1,5 @@
 <%@page import="java.util.List"%>
+<%@ page import="com.kosta.bank.dto.Account" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <style>
@@ -19,7 +20,7 @@ tr, td {
 
 </style>
 
-<%--<% List<Account> accs = (List<Account>) request.getAttribute("accs"); %>--%>
+<% List<Account> accs = (List<Account>) request.getAttribute("accs"); %>
 
 <jsp:include page="header.jsp"/>
 <div class="container">
@@ -32,16 +33,16 @@ tr, td {
            <th>잔액</th>
            <th>계좌종류</th>
            <th>등급</th>
-<%--       </tr>--%>
-<%--	    <% for(int i=0; i<accs.size(); i++) { %>--%>
-<%--	    	<tr>  --%>
-<%--		         <td><%=i+1 %></td>--%>
-<%--		         <td><%=accs.get(i).getId() %></td>--%>
-<%--		         <td><%=accs.get(i).getName() %></td>--%>
-<%--		         <td><%=accs.get(i).getBalance()%></td>--%>
-<%--		         <td><%=accs.get(i).getType() %></td>--%>
-<%--		         <td><%=accs.get(i).getGrade() %></td>--%>
-<%--	    	</tr>--%>
-<%--	    <% } %>--%>
+       </tr>
+	    <% for(int i=0; i<accs.size(); i++) { %>
+	    	<tr>
+		         <td><%=i+1 %></td>
+		         <td><%=accs.get(i).getId() %></td>
+		         <td><%=accs.get(i).getName() %></td>
+		         <td><%=accs.get(i).getBalance()%></td>
+		         <td><%=accs.get(i).getType() %></td>
+		         <td><%=accs.get(i).getGrade() %></td>
+	    	</tr>
+	    <% } %>
     </table> 
 </div>
