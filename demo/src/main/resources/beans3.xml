@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	https://www.springframework.org/schema/beans/spring-beans.xsd">
+	   
+    <bean id="department" class="com.kosta.di.sample3.Department"> 
+        <property name="name" value="부서명" />
+        <property name="location" value="부서위치" />
+    </bean>
+    
+    <bean id="employee" class="com.kosta.di.sample3.EmployeeImpl">
+        <constructor-arg value="12345" index="0" /> 
+        <constructor-arg value="홍길동" index="1" /> 
+        <property name="department" ref="department" /> <!-- department 빈 주입 -->
+    </bean>
+</beans>

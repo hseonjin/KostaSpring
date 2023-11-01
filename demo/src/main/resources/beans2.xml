@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="outputter" class="com.kosta.di.sample2.FileOutputter">
+		<constructor-arg> <!-- 생성자의 파라미터를 넣으라는 의미 -->
+			<value>out.txt</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="messageBean" class="com.kosta.di.sample2.MessageBeanImpl">
+		<property name="name"><value>길동</value></property> <!-- 기본 값인 경우 value 내부에 입력 -->
+		<property name="greeting"><value>반가워</value></property>
+		<property name="outputter"><ref bean="outputter"/></property> <!-- 객체인 경우 ref -->
+	</bean>
+</beans>
