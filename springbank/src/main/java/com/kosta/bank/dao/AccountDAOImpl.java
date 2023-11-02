@@ -2,11 +2,15 @@ package com.kosta.bank.dao;
 
 import com.kosta.bank.dto.Account;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public class AccountDAOImpl implements AccountDAO {
+    @Autowired
     private SqlSessionTemplate sqlSession;
     public SqlSessionTemplate sqlSession() {
         return sqlSession;

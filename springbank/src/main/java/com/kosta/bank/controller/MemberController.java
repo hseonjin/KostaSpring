@@ -40,7 +40,7 @@ public class MemberController {
     public String login(@RequestParam("id") String id, @RequestParam("password") String password, Model model, HttpSession session) {
         try {
             Member mem = memberService.login(id, password);
-            model.addAttribute("mem", mem);
+            mem.setPassword("");
             session.setAttribute("id", id);
             return "makeAccount";
         } catch (Exception e) {
@@ -48,6 +48,12 @@ public class MemberController {
             model.addAttribute("err", "로그인 실패");
             return "error";
         }
+    }
+
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
+    public String logout(HttpSession session) {
+        session.removeAttribute("id");
+        return "main";
     }
 
 }

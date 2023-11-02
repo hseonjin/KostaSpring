@@ -23,21 +23,25 @@
 	
 	<context:component-scan base-package="com.kosta.bank" />
 
-	<beans:bean id="accountDAO" class="com.kosta.bank.dao.AccountDAOImpl" >
-		<beans:property name="sqlSession" ref="sqlSession"/>
-	</beans:bean>
+<!--	<beans:bean id="accountDAO" class="com.kosta.bank.dao.AccountDAOImpl" >-->
+<!--		<beans:property name="sqlSession" ref="sqlSession"/>-->
+<!--	</beans:bean>-->
+<!-- serviceImpl 클래스에 @Service와 @Autowired 어노태이션을 추가하였기 때문에 자동으로 설정됨 -->
 
-	<beans:bean id="accountService" class="com.kosta.bank.service.AccountServiceImpl">
-		<beans:property name="accountDAO" ref="accountDAO"/>
-	</beans:bean>
 
-	<beans:bean id="memberDAO" class="com.kosta.bank.dao.MemberDAOImpl" >
-		<beans:property name="sqlSession" ref="sqlSession"/>
-	</beans:bean>
+<!--	<beans:bean id="accountService" class="com.kosta.bank.service.AccountServiceImpl">-->
+<!--		<beans:property name="accountDAO" ref="accountDAO"/>-->
+<!--	</beans:bean>-->
+<!-- DAOImpl 클래스에 @Repository와 @Autowired 어노태이션을 추가하였기 때문에 자동으로 설정됨 -->
 
-	<beans:bean id="memberService" class="com.kosta.bank.service.MemberServiceImpl">
-		<beans:property name="memberDAO" ref="memberDAO"/>
-	</beans:bean>
 
+<!--	<beans:bean id="memberDAO" class="com.kosta.bank.dao.MemberDAOImpl" >-->
+<!--		<beans:property name="sqlSession" ref="sqlSession"/>-->
+<!--	</beans:bean>-->
+
+
+<!--	<beans:bean id="memberService" class="com.kosta.bank.service.MemberServiceImpl">-->
+<!--		<beans:property name="memberDAO" ref="memberDAO"/>-->
+<!--	</beans:bean>-->
 
 </beans:beans>

@@ -3,15 +3,13 @@ package com.kosta.bank.dao;
 
 import com.kosta.bank.dto.Member;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class MemberDAOImpl implements MemberDAO {
+    @Autowired
     private SqlSessionTemplate sqlSession;
-    public SqlSessionTemplate sqlSession() {
-        return sqlSession;
-    }
-    public void setSqlSession(SqlSessionTemplate sqlSession) {
-        this.sqlSession = sqlSession;
-    }
 
     @Override
     public void join(Member mem) throws Exception {

@@ -3,13 +3,17 @@ package com.kosta.bank.service;
 import com.kosta.bank.dao.AccountDAO;
 import com.kosta.bank.dao.AccountDAOImpl;
 import com.kosta.bank.dto.Account;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class AccountServiceImpl implements AccountService {
 
+    @Autowired
     private AccountDAO accountDAO;
 
     public void setAccountDAO(AccountDAOImpl accountDAO) {
@@ -23,26 +27,26 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account accountInfo(String id) throws Exception {
+        Account acc = accountDAO.selectAccount(id);
+        if (acc==null) throw new Exception("계좌번호 오류");
         return accountDAO.selectAccount(id);
     }
 
     @Override
     public void deposit(String id, Integer balance) throws Exception {
-        Account acc = accountDAO.selectAccount(id);
+        Account acc = accountInfo(id);
         acc.deposit(balance);
-        if (acc==null) throw new Exception("계좌번호 오류");
         Map<String, Object> param = new HashMap<>();
-        param.put("id", id);
+        param.put("id", acc.getId());
         param.put("balance", acc.getBalance());
         accountDAO.updateAccountBalance(param);
     }
     @Override
     public void withdraw(String id, Integer balance) throws Exception {
-        Account acc = accountDAO.selectAccount(id);
+        Account acc = accountInfo(id);
         acc.withdraw(balance);
-        if (acc==null) throw new Exception("계좌번호 오류");
         Map<String, Object> param = new HashMap<>();
-        param.put("id", id);
+        param.put("id", acc.getId());
         param.put("balance", acc.getBalance());
         accountDAO.updateAccountBalance(param);
     }

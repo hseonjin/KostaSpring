@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -47,16 +48,19 @@ public class AccountController {
     }
 
     @RequestMapping(value="deposit", method = RequestMethod.POST)
-    public String deposit(@RequestParam("id") String id, @RequestParam("balance") Integer balance, Model model) {
+    public ModelAndView deposit(@RequestParam("id") String id, @RequestParam("balance") Integer balance) {
+        ModelAndView mav = new ModelAndView();
         try {
             accountService.deposit(id, balance);
             Account acc = accountService.accountInfo(id);
-            model.addAttribute("acc", acc);
-            return "accountInfo";
+            mav.addObject("acc", acc);
+            mav.setViewName("accountInfo");
         } catch (Exception e) {
             e.printStackTrace();
-            return "error";
+            mav.addObject("err", e.getMessage());
+            mav.setViewName("error");
         }
+        return mav;
     }
 
     @RequestMapping(value="withdraw", method = RequestMethod.GET)
