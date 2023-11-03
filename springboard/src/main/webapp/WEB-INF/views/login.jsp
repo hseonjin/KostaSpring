@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+
 <style>
 #label {
 	text-align: center;
@@ -20,7 +24,7 @@ form {
 
 <div class="container">
 	<h3>로그인</h3>
-	<form action="login" method="post">
+	<form action="${contextPath}/login" method="post">
 		<table>
 			<tr>
 				<td class="label">아이디</td>

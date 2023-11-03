@@ -21,4 +21,10 @@ public interface BoardDAO {
     void minusBoardLikeCount(Integer num) throws Exception;
     void insertFile(FileVO fileVO) throws Exception;
     FileVO selectFile(Integer num) throws Exception;
+    void deleteFile(Integer num) throws Exception;
+
+    // 좋아요 (board like)
+    Integer selectBoardLike(Map<String, Object> param) throws Exception;
+    void insertBoardLike(Map<String, Object> param) throws Exception;
+    void deleteBoardLike(Map<String, Object> param) throws Exception;
 }

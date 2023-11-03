@@ -66,4 +66,17 @@ public class MemberController {
         session.removeAttribute("user");
         return ("main");
     }
+
+    // 아이디 중복체크
+    @RequestMapping(value="/idcheck", method=RequestMethod.POST)
+    public String idCheck(@RequestParam("id") String id) {
+        try {
+            Member member = memberService.userInfo(id);
+            if(member == null) return "notexist";
+            return "exist";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "exist";
+        }
+    }
 }

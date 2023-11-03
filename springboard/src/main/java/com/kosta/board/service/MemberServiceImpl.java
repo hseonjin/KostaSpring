@@ -12,6 +12,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void join(Member mem) throws Exception {
+        Member smember = memberDAO.selectMember(mem.getId());
+        if(smember!=null) throw new Exception("아이디 중복");
         memberDAO.join(mem);
     }
 
@@ -21,5 +23,10 @@ public class MemberServiceImpl implements MemberService {
         if(mem==null) throw new Exception("아이디 오류");
         if(!mem.getPassword().equals(password)) throw new Exception("비밀번호 오류");
         return mem;
+    }
+
+    @Override
+    public Member userInfo(String id) throws Exception {
+        return memberDAO.selectMember(id);
     }
 }

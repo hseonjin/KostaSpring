@@ -19,4 +19,10 @@ public class MemberDAOImpl implements MemberDAO {
     public Member login(String id) throws Exception {
         return sqlSession.selectOne("mapper.member.selectMember", id);
     }
+
+    @Override
+    public Member selectMember(String id) throws Exception {
+        sqlSession.selectOne("mapper.member.selectMember", id);
+        return null;
+    }
 }
