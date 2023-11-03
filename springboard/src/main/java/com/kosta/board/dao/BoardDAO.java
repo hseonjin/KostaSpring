@@ -9,7 +9,7 @@ import java.util.Map;
 public interface BoardDAO {
     void insertBoard(Board board) throws Exception;
     List<Board> selectBoardList(Integer row) throws Exception;
-    Integer  selectBoardCount() throws Exception;
+    Integer selectBoardCount() throws Exception;
     Board selectBoard(Integer num) throws Exception;
     void updateBoard(Board board) throws Exception;
     void deleteBoard(Integer num) throws Exception;
@@ -19,7 +19,6 @@ public interface BoardDAO {
     Integer selectLikeCount(Integer num) throws Exception;
     void plusBoardLikeCount(Integer num) throws Exception;
     void minusBoardLikeCount(Integer num) throws Exception;
-    // 파일업로드
     void insertFile(FileVO fileVO) throws Exception;
     FileVO selectFile(Integer num) throws Exception;
 }

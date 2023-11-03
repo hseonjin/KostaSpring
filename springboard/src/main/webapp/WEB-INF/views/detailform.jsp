@@ -21,17 +21,17 @@
             /* width: 450px; */
         }
 
-        #left {
+        .left {
             width: 150px;
             background: orange;
         }
 
-        #right {
+        .right {
             width: 300px;
             background: skyblue;
         }
 
-        #btn {
+        .btn {
             margin-top: 10px;
             text-align: center;
         }
@@ -92,7 +92,8 @@
                 <c:if test="${board.fileurl ne null }">
                 <tr>
                     <td class="left"><label for="writer">이미지</label></td>
-                    <td><img src="image?file=${board.fileurl }" alt="" width="100" height="100" ></td>
+<%--                    <td><img src="image?file=${board.fileurl }" alt="" width="100" height="100" ></td>--%>
+                    <td><img src="image/${board.fileurl }" alt="" width="100" height="100" ></td>
                 </tr>
                 </c:if>
             </table>
@@ -101,15 +102,15 @@
             <c:if test="${user ne Empty }">
 				<c:choose>
 				    <c:when test="${select eq true}">
-				        <img alt="after" src="image?file=afterlike.png" width="50px" height="50px" id="heart">
+				        <img alt="after" src="image/afterlike.png" width="50px" height="50px" id="heart">
 				    </c:when>
 				    <c:otherwise>
-				        <img alt="before" src="image?file=beforelike.png" width="50px" height="50px" id="heart">
+				        <img alt="before" src="image/beforelike.png" width="50px" height="50px" id="heart">
 				    </c:otherwise>
 				</c:choose>
             </c:if>
          </div>
-        <div id="btn">
+        <div class="btn">
         	<c:if test="${user.id eq board.writer }">
             	<a href="boardmodify?num=${board.num }">수정</a>&nbsp;&nbsp;
            	</c:if>

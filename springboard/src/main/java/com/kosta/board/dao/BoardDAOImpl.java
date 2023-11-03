@@ -11,12 +11,13 @@ import java.util.Map;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
+
     @Autowired
-    private SqlSessionTemplate sqlSession; // null을 가지고 있음 -> @Autowired 어노테이션을 통해 주입하여 사용됨
+    private SqlSessionTemplate sqlSession;
 
     @Override
     public void insertBoard(Board board) throws Exception {
-        sqlSession.insert("mapper.board.insertBoard");
+        sqlSession.insert("mapper.board.insertBoard",board);
     }
 
     @Override
@@ -31,7 +32,7 @@ public class BoardDAOImpl implements BoardDAO {
 
     @Override
     public Board selectBoard(Integer num) throws Exception {
-        return sqlSession.selectOne("mapper.board.selectBoard", num);
+        return sqlSession.selectOne("mapper.board.selectBoard",num);
     }
 
     @Override
@@ -46,12 +47,12 @@ public class BoardDAOImpl implements BoardDAO {
 
     @Override
     public List<Board> searchBoardList(Map<String, Object> param) throws Exception {
-        return sqlSession.selectOne("mapper.board.searchBoardList", param);
+        return sqlSession.selectList("mapper.board.searchBoardList", param);
     }
 
     @Override
     public Integer searchBoardCount(Map<String, Object> param) throws Exception {
-        return sqlSession.selectOne("mapper.board..searchBoardCount", param);
+        return sqlSession.selectOne("mapper.board.searchBoardCount",param);
     }
 
     @Override
@@ -66,12 +67,12 @@ public class BoardDAOImpl implements BoardDAO {
 
     @Override
     public void plusBoardLikeCount(Integer num) throws Exception {
-        sqlSession.update("mapper.board.plusBoardLikeCount", num);
+        sqlSession.update("mapper.board.plusBoardLikeCount",num);
     }
 
     @Override
     public void minusBoardLikeCount(Integer num) throws Exception {
-        sqlSession.update("mapper.board.minusBoardLikeCount", num);
+        sqlSession.update("mapper.board.minusBoardLikeCount",num);
     }
 
     @Override

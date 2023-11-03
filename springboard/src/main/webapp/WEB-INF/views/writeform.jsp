@@ -42,12 +42,12 @@
 <jsp:include page="main.jsp"></jsp:include>
     <div class="container">
         <h2>게시판글등록</h2>
-        <form action="./boardwrite" method="post" enctype="multipart/form-data">
+        <form action="boardwrite" method="post" enctype="multipart/form-data">
             <input type="hidden" name="writer" value="${user.id}">
             <table>
                 <tr>
                     <td class="left"><label for="writer">글쓴이</label></td>
-                    <td class="right"><input type="text" id="writer" readonly="readonly" value=${user.name }></td>
+                    <td class="right"><input type="text" id="writer" readonly="readonly" value="${user.name }"></td>
                 </tr>
                 <tr>
                     <td class="left"><label for="subject">제 목</label></td>
