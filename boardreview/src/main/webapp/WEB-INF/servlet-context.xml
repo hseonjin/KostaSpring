@@ -30,10 +30,15 @@
     <beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <beans:property name="dataSource" ref="dataSource" />
         <beans:property name="mapperLocations">
-            <beans:list><beans:value>classpath*:com/kosta/boardreview/sql/*.xml</beans:value></beans:list>
+            <beans:list>
+                <beans:value>classpath*:mapper/*.xml</beans:value>
+            </beans:list>
         </beans:property>
-        <beans:property name="typeAliasesPackage"><beans:value>com.kosta.boardreview.dto</beans:value></beans:property>
+        <beans:property name="typeAliasesPackage">
+            <beans:value>com.kosta.boardreview.dto</beans:value>
+        </beans:property>
     </beans:bean>
+
     <beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
         <beans:constructor-arg index="0" ref="sqlSessionFactory" />
     </beans:bean>

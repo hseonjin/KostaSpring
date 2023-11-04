@@ -31,8 +31,7 @@ margin: 0 auto;}
 				type:"post",
 				data:{id:$('#id').val()},
 				success: function(res) {
-					console.log(id);
-					if(res=="notexist") {
+					if(res=="notexist") { // 아이디 사용 가능
 						isIdCheck=true;
 						alert("사용가능한 아이디입니다.");
 					} else {
