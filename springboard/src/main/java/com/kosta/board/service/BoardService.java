@@ -10,6 +10,7 @@ import java.util.List;
 public interface BoardService {
     List<Board> boardListByPage(PageInfo pageInfo) throws Exception; // 글 리스트 (+페이징처리)
     Board writeBoard(Board board, MultipartFile file) throws Exception; // 글 작성
+
     void fileView(Integer num, OutputStream out) throws Exception; // file 보기
     Board boardDetail(Integer num) throws Exception; // 글 상세
     Board modifyBoard(Board board, MultipartFile file) throws Exception; // 글 수정

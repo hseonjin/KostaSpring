@@ -1,22 +1,75 @@
 package com.kosta.boardreview.controller;
 
+import com.kosta.boardreview.dto.Board;
+import com.kosta.boardreview.dto.PageInfo;
+import com.kosta.boardreview.service.BoardService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Controller
 @RequestMapping("/") // 기본 루트
 public class BoardController {
+    @Autowired
+    private BoardService service;
+
     @GetMapping("/") // 메인 페이지 GET
     public String main(){
         return "main";
     } // view 이름을 작성하는 것
 
+    @GetMapping("boardwrite") // 게시글 작성 페이지 GET
+    public String writeForm() { return "writeform"; }
+
+    @PostMapping("boardwrite") // 게시글 작성 페이지 POST
+    public ModelAndView boardWrite(@ModelAttribute Board board, @RequestParam("file") MultipartFile file) {
+        ModelAndView mav = new ModelAndView();
+        try {
+            Board writeboard = service.boardWrite(board, file);
+            mav.addObject("board", writeboard);
+            mav.setViewName("detailform");
+        } catch(Exception e) {
+            e.printStackTrace();
+            mav.addObject("err","글 등록 오류");
+            mav.setViewName("error");
+        }
+        return mav;
+    }
+
     @GetMapping("boardlist") // 게시판 페이지 GET
     public String boardList() { return "boardlist"; }
 
-    @GetMapping("writeform") // 게시글 작성 페이지 GET
-    public String writeForm() { return "writeform"; }
+    @PostMapping("boardlist")
+    public ModelAndView boardList(@RequestParam(value="page", required=false, defaultValue = "1") Integer page) {
+        ModelAndView mav = new ModelAndView();
+        try {
+            PageInfo pageInfo = new PageInfo();
+            pageInfo.setCurPage(page);
+            List<Board> boardList = service.boardListByPage(pageInfo);
+            mav.addObject("pageInfo", pageInfo);
+            mav.addObject("boardList", boardList);
+            mav.setViewName("boardlist");
+        } catch(Exception e) {
+            e.printStackTrace();
+            mav.setViewName("error");
+        }
+        return mav;
+    }
+
+    @RequestMapping(value="/image/{num}")
+    @ResponseBody
+    public void imageView(@PathVariable Integer num, HttpServletResponse response) {
+        try {
+            service.fileView(num, response.getOutputStream());
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @GetMapping("detailform") // 게시글 상세 페이지 GET
     public String detailForm() { return "detailform"; }
