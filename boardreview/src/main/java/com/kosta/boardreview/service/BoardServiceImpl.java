@@ -10,6 +10,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.util.List;
 
@@ -17,6 +18,26 @@ import java.util.List;
 public class BoardServiceImpl implements BoardService {
     @Autowired
     private BoardDAO boardDAO;
+
+    // 게시글 리스트
+    @Override
+    public List<Board> boardListByPage(PageInfo pageInfo) throws Exception {
+        int boardCount = boardDAO.selectBoardCount(); // 게시글 개수 파악
+        if(boardCount==0) return null; // 게시글 없는 경우 null 리턴
+
+        // 페이징 처리
+        int allPage = (int)Math.ceil((double)boardCount/10);
+        int startPage = (pageInfo.getCurPage()-1)/10*10+1;
+        int endPage = Math.min(startPage+10-1, allPage);
+
+        pageInfo.setAllPage(allPage);
+        pageInfo.setStartPage(startPage);
+        pageInfo.setEndPage(endPage);
+        if(pageInfo.getCurPage()>allPage) pageInfo.setCurPage(allPage);
+
+        int row = (pageInfo.getCurPage()-1)*10+1;
+        return boardDAO.selectBoardList(row-1);
+    }
 
     // 게시글 작성
     @Override
@@ -40,33 +61,15 @@ public class BoardServiceImpl implements BoardService {
         return boardDAO.selectBoard(board.getNum());
     }
 
-    // 게시글 리스트
-    @Override
-    public List<Board> boardListByPage(PageInfo pageInfo) throws Exception {
-        int boardCount = boardDAO.selectBoardCount();
-        if(boardCount==0) return null;
-
-        int allPage = (int)Math.ceil((double)boardCount/10);
-        int startPage = (pageInfo.getCurPage()-1)/10*10+1;
-        int endPage = Math.min(startPage+10-1, allPage);
-
-        pageInfo.setAllPage(allPage);
-        pageInfo.setStartPage(startPage);
-        pageInfo.setEndPage(endPage);
-        if(pageInfo.getCurPage()>allPage) pageInfo.setCurPage(allPage);
-
-        int row = (pageInfo.getCurPage()-1)*10+1;
-        return boardDAO.selectBoardList(row-1);
-    }
-
     // 파일 보기
     @Override
     public void fileView(Integer num, OutputStream out) throws Exception {
         try {
-            FileVO fileVo = boardDAO.selectFile(num);
-            FileCopyUtils.copy(fileVo.getData(), out);
+            FileVO fileVO = boardDAO.selectFile(num);
+            FileInputStream fis = new FileInputStream(fileVO.getDirectory() + num);
+            FileCopyUtils.copy(fis, out);
             out.flush();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

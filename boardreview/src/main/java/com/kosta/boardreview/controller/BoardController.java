@@ -24,16 +24,16 @@ public class BoardController {
     } // view 이름을 작성하는 것
 
     @GetMapping("boardwrite") // 게시글 작성 페이지 GET
-    public String writeForm() { return "writeform"; }
+    public String boardWrite() { return "writeform"; }
 
     @PostMapping("boardwrite") // 게시글 작성 페이지 POST
     public ModelAndView boardWrite(@ModelAttribute Board board, @RequestParam("file") MultipartFile file) {
         ModelAndView mav = new ModelAndView();
         try {
-            Board writeboard = service.boardWrite(board, file);
-            mav.addObject("board", writeboard);
+            Board boardwrite = service.boardWrite(board, file);
+            mav.addObject("board", boardwrite);
             mav.setViewName("detailform");
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             mav.addObject("err","글 등록 오류");
             mav.setViewName("error");
@@ -41,10 +41,7 @@ public class BoardController {
         return mav;
     }
 
-    @GetMapping("boardlist") // 게시판 페이지 GET
-    public String boardList() { return "boardlist"; }
-
-    @PostMapping("boardlist")
+    @GetMapping("boardlist") // 게시글 리스트 페이지 GET
     public ModelAndView boardList(@RequestParam(value="page", required=false, defaultValue = "1") Integer page) {
         ModelAndView mav = new ModelAndView();
         try {
@@ -61,12 +58,11 @@ public class BoardController {
         return mav;
     }
 
-    @RequestMapping(value="/image/{num}")
-    @ResponseBody
+    @RequestMapping("image/{num}")
     public void imageView(@PathVariable Integer num, HttpServletResponse response) {
         try {
             service.fileView(num, response.getOutputStream());
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

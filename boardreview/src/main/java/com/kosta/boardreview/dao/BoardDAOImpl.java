@@ -7,45 +7,100 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
     @Autowired
     private SqlSessionTemplate sqlSession;
 
-    // 게시글 작성
     @Override
     public void insertBoard(Board board) throws Exception {
-        sqlSession.insert("mapper.board.insertBoard", board);
+        sqlSession.insert("mapper.board.insertBoard",board);
     }
 
-    // 게시글 개수
-    @Override
-    public Integer selectBoardCount() throws Exception {
-        return sqlSession.selectOne("mapper.board.selectBoardCount");
-    }
-
-    // 게시글 리스트
     @Override
     public List<Board> selectBoardList(Integer row) throws Exception {
         return sqlSession.selectList("mapper.board.selectBoardList", row);
     }
 
-    // 게시글 상세
     @Override
-    public Board selectBoard(Integer num) throws Exception {
-        return sqlSession.selectOne("mapper.board.selectBoard", num);
+    public Integer selectBoardCount() throws Exception {
+        return sqlSession.selectOne("mapper.board.selectBoardCount");
     }
 
-    // 파일 삽입
+    @Override
+    public Board selectBoard(Integer num) throws Exception {
+        return sqlSession.selectOne("mapper.board.selectBoard",num);
+    }
+
+    @Override
+    public void updateBoard(Board board) throws Exception {
+        sqlSession.update("mapper.board.updateBoard", board);
+    }
+
+    @Override
+    public void deleteBoard(Integer num) throws Exception {
+        sqlSession.delete("mapper.board.deleteBoard", num);
+    }
+
+    @Override
+    public List<Board> searchBoardList(Map<String, Object> param) throws Exception {
+        return sqlSession.selectList("mapper.board.searchBoardList", param);
+    }
+
+    @Override
+    public Integer searchBoardCount(Map<String, Object> param) throws Exception {
+        return sqlSession.selectOne("mapper.board.searchBoardCount",param);
+    }
+
+    @Override
+    public void updateBoardViewCount(Integer num) throws Exception {
+        sqlSession.update("mapper.board.updateBoardViewCount", num);
+    }
+
+    @Override
+    public Integer selectLikeCount(Integer num) throws Exception {
+        return sqlSession.selectOne("mapper.board.selectLikeCount", num);
+    }
+
+    @Override
+    public void plusBoardLikeCount(Integer num) throws Exception {
+        sqlSession.update("mapper.board.plusBoardLikeCount",num);
+    }
+
+    @Override
+    public void minusBoardLikeCount(Integer num) throws Exception {
+        sqlSession.update("mapper.board.minusBoardLikeCount",num);
+    }
+
     @Override
     public void insertFile(FileVO fileVO) throws Exception {
         sqlSession.insert("mapper.board.insertFile", fileVO);
     }
 
-    // 파일 선택
     @Override
     public FileVO selectFile(Integer num) throws Exception {
         return sqlSession.selectOne("mapper.board.selectFile", num);
+    }
+
+    @Override
+    public void deleteFile(Integer num) throws Exception {
+        sqlSession.delete("mapper.board.deleteFile", num);
+    }
+
+    @Override
+    public Integer selectBoardLike(Map<String, Object> param) throws Exception {
+        return sqlSession.selectOne("mapper.boardlike.selectBoardLike", param);
+    }
+
+    @Override
+    public void insertBoardLike(Map<String, Object> param) throws Exception {
+        sqlSession.insert("mapper.boardlike.insertBoardLike", param);
+    }
+
+    @Override
+    public void deleteBoardLike(Map<String, Object> param) throws Exception {
+        sqlSession.delete("mapper.boardlike.deleteBoardLike", param);
     }
 }

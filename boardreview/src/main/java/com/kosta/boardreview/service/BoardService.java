@@ -9,12 +9,13 @@ import java.io.OutputStream;
 import java.util.List;
 
 public interface BoardService {
-    // 게시글 작성
-    Board boardWrite(Board board, MultipartFile file) throws Exception;
-
-    // 게시글 리스트 (+페이징 처리)
+    // 게시글 리스트
     List<Board> boardListByPage(PageInfo pageInfo) throws Exception;
+
+    // 게시글 작성(생성)
+    Board boardWrite(Board board, MultipartFile file) throws Exception;
 
     // 파일 보기
     void fileView(Integer num, OutputStream out) throws Exception;
+
 }
