@@ -18,4 +18,7 @@ public interface BoardService {
     // 파일 보기
     void fileView(Integer num, OutputStream out) throws Exception;
 
+    // 게시글 상세
+    Board boardDetail(Integer num) throws Exception;
+
 }

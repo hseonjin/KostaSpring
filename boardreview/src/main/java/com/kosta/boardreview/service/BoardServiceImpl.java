@@ -73,4 +73,10 @@ public class BoardServiceImpl implements BoardService {
             e.printStackTrace();
         }
     }
+
+    // 글 상세
+    @Override
+    public Board boardDetail(Integer num) throws Exception {
+        return boardDAO.selectBoard(num);
+    }
 }

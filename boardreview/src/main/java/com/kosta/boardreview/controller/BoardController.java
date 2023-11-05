@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -17,6 +18,8 @@ import java.util.List;
 public class BoardController {
     @Autowired
     private BoardService service;
+    @Autowired
+    HttpSession session;
 
     @GetMapping("/") // 메인 페이지 GET
     public String main(){
@@ -67,8 +70,20 @@ public class BoardController {
         }
     }
 
-    @GetMapping("detailform") // 게시글 상세 페이지 GET
-    public String detailForm() { return "detailform"; }
+    @GetMapping("boarddetail/{num}") // 게시글 상세 페이지 GET
+    public ModelAndView detailForm(@PathVariable Integer num) {
+        ModelAndView mav = new ModelAndView();
+        try {
+            Board board = service.boardDetail(num);
+            mav.addObject("board", board);
+            mav.setViewName("detailform");
+        } catch (Exception e) {
+            e.printStackTrace();
+            mav.addObject("err", "글 상세 조회 실패");
+            mav.setViewName("error");
+        }
+        return mav;
+    }
 
     @GetMapping("modifyform") // 게시글 수정 페이지 GET
     public String modifyForm() { return "modifyform"; }
