@@ -85,6 +85,33 @@ public class BoardController {
         return mav;
     }
 
-    @GetMapping("modifyform") // 게시글 수정 페이지 GET
-    public String modifyForm() { return "modifyform"; }
+    @GetMapping("boardmodify/{num}") // 게시글 수정 페이지 GET
+    public ModelAndView boardModify(@PathVariable Integer num) {
+        ModelAndView mav = new ModelAndView();
+        try {
+            Board board = service.boardDetail(num); // 선택한 게시글의 정보 찾아 저장
+            mav.addObject("board", board);
+            mav.setViewName("modifyform");
+        } catch (Exception e) {
+            e.printStackTrace();
+            mav.addObject("err", "수정할 게시글 정보 조회 오류");
+            mav.setViewName("error");
+        }
+        return mav;
+    }
+
+    @PostMapping("boardmodify") // 게시글 수정 페이지 POST
+    public ModelAndView boardModify(@ModelAttribute Board board, @RequestParam("file") MultipartFile file) {
+        ModelAndView mav = new ModelAndView();
+        try {
+            Board modify = service.boardModify(board, file);
+            mav.addObject("board", modify);
+            mav.setViewName("detailform"); // 수정 완료 후 디테일페이지 이동
+        } catch (Exception e) {
+            e.printStackTrace();
+            mav.addObject("err","글 수정 오류");
+            mav.setViewName("error");
+        }
+        return mav;
+    }
 }

@@ -79,4 +79,43 @@ public class BoardServiceImpl implements BoardService {
     public Board boardDetail(Integer num) throws Exception {
         return boardDAO.selectBoard(num);
     }
+
+    // 게시글 수정
+    @Override
+    public Board boardModify(Board board, MultipartFile file) throws Exception { // 생성 때와 유사한 로직
+        // file이 존재할 때
+        if(file!=null && !file.isEmpty()) {
+            // 1. 파일정보 DB에 추가
+            String dir = "D:/seonjin/upload/";
+            FileVO fileVO = new FileVO();
+            fileVO.setDirectory(dir);
+            fileVO.setName(file.getOriginalFilename());
+            fileVO.setSize(file.getSize());
+            fileVO.setContenttype(file.getContentType());
+            fileVO.setData(file.getBytes());
+            boardDAO.insertFile(fileVO);
+
+            // 2. upload 폴더에 파일 업로드
+            File uploadFile = new File(dir+fileVO.getNum());
+            file.transferTo(uploadFile);
+
+            // 3. 기존 파일번호 삭제를 위해 받아놓기
+            Integer deleteFileNum = null;
+            if(board.getFileurl()!=null && board.getFileurl().trim().equals("")) {
+                deleteFileNum = Integer.parseInt(board.getFileurl());
+            }
+
+            // 4. 파일번호를 board fileUrl에 복사 & board update
+            board.setFileurl(fileVO.getNum()+"");
+            boardDAO.updateBoard(board);
+
+            // 5. board fileUrl에 해당하는 파일 번호를 파일 테이블에서 삭제
+            if(deleteFileNum!=null) {
+                boardDAO.deleteFile(deleteFileNum);
+            }
+        } else {
+            boardDAO.updateBoard(board);
+        }
+        return boardDAO.selectBoard(board.getNum());
+    }
 }

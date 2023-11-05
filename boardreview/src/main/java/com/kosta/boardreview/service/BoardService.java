@@ -21,4 +21,7 @@ public interface BoardService {
     // 게시글 상세
     Board boardDetail(Integer num) throws Exception;
 
+    // 게시글 수정
+    Board boardModify(Board board, MultipartFile file) throws Exception;
+
 }
