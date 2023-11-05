@@ -118,4 +118,16 @@ public class BoardServiceImpl implements BoardService {
         }
         return boardDAO.selectBoard(board.getNum());
     }
+
+    // 게시글 삭제
+    @Override
+    public void boardDelete(Integer num) throws Exception {
+        Board board = boardDAO.selectBoard(num);
+        if(board != null) {
+            if(board.getFileurl()!=null) { // 파일이 있는 경우 파일 먼저 삭제
+                boardDAO.deleteFile(Integer.parseInt(board.getFileurl()));
+            }
+            boardDAO.deleteBoard(num);
+        }
+    }
 }

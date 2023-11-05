@@ -24,4 +24,6 @@ public interface BoardService {
     // 게시글 수정
     Board boardModify(Board board, MultipartFile file) throws Exception;
 
+    // 게시글 삭제
+    void boardDelete(Integer num) throws Exception;
 }

@@ -114,4 +114,15 @@ public class BoardController {
         }
         return mav;
     }
+
+    @GetMapping("boarddelete/{num}/{page}") // 게시글 삭제 GET - 페이지 조정까지 해주어야 함
+    public String boardDelete(@PathVariable Integer num, @PathVariable Integer page) {
+        try {
+            service.boardDelete(num);
+            return "redirect:/boardlist?page=" + page;
+        } catch (Exception e){
+            e.printStackTrace();
+            return "error";
+        }
+    }
 }
