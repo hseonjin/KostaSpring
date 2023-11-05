@@ -49,7 +49,6 @@
 	</style>
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 	<script>
-
 		function callBtn(num) {
 			var keyword = $("#keyword").val();
 			if(keyword!=null && keyword.trim()!='') {
@@ -70,16 +69,16 @@
 			<a href="${contextPath}/boardwrite">글쓰기</a>
 		</c:if>
 	</h3>
-	<form action="search" method="post">
+	<form action="${contextPath}/boardsearch" method="post" id="searchform">
 		<input type="hidden" name="page" id="page" value="1">
 		<h5>
 			<select name="type">
-				<option id="all" value="all">선택</option>
-				<option id="subject" value="subject" ${type eq 'subject' ? 'selected': ''}>제목</option>
-				<option id="writer" value="writer" ${type eq 'writer' ? 'selected': ''}>작성자</option>
-				<option id="content" value="content" ${type eq 'content' ? 'selected': ''}>내용</option>
+				<option value="all">선택</option>
+				<option value="subject" ${type eq 'subject' ? 'selected' : ''}>제목</option>
+				<option value="writer" ${type eq 'writer' ? 'selected' : ''}>작성자</option>
+				<option value="content" ${type eq 'content' ? 'selected' : ''}>내용</option>
 			</select>
-			<input type="text" name="keyword" id="keyword" value="${keyword }" />
+			<input type="text" name="keyword" id="keyword" value="${keyword}" />
 			<input type="submit" value="검색" />
 		</h5>
 	</form>
@@ -92,18 +91,16 @@
 			<th>조회수</th>
 			<th>삭제</th>
 
-			<c:forEach items="${boardList }" var="board">
+		<c:forEach items="${boardList}" var="board">
 		<tr id="tbl_content">
-			<td>${board.num }</td>
-				<%-- 					<td><a href="boarddetail?num=${board.num}">${board.subject }</a></td> --%>
-			<td><a href="${contextPath}/boarddetail/${board.num}">${board.subject }</a></td>
-			<td>${board.writer }</td>
-			<td>${board.writedate  }</td>
-			<td>${board.viewcount  }</td>
+			<td>${board.num}</td>
+			<td><a href="${contextPath}/boarddetail/${board.num}">${board.subject}</a></td>
+			<td>${board.writer}</td>
+			<td>${board.writedate}</td>
+			<td>${board.viewcount}</td>
 			<td>
-				<c:if test="${user.id == board.writer }">
-					<%-- <a href="boarddelete/${board.num }/${pageInfo.curPage}">삭제</a>--%>
-					<a href="${contextPath}/boarddelete/${board.num }/${pageInfo.curPage}">삭제</a>
+				<c:if test="${user.id == board.writer}">
+					<a href="${contextPath}/boarddelete/${board.num}/${pageInfo.curPage}">삭제</a>
 				</c:if>
 			</td>
 		</tr>

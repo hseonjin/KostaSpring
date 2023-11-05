@@ -159,4 +159,39 @@ public class BoardServiceImpl implements BoardService {
             return false;
         }
     }
+
+    // 검색 기능
+    @Override
+    public Map<String, Object> searchListByPage(String type, String keyword, Integer page) throws Exception {
+        Map<String, Object> param = new HashMap<>();
+        param.put("type", type);
+        param.put("keyword", keyword);
+
+        // 페이징 처리
+        PageInfo pageInfo = new PageInfo();
+        int boardCount = boardDAO.searchBoardCount(param);
+        int allPage = (int)Math.ceil((double)boardCount/10);
+        int startPage = (page-1)/10*10+1;
+        int endPage = Math.min(startPage+10-1, allPage);
+        pageInfo.setAllPage(allPage);
+        pageInfo.setCurPage(page);
+        pageInfo.setStartPage(startPage);
+        pageInfo.setEndPage(endPage);
+
+        int row = (page-1)*10+1;
+        param.put("row", row-1);
+
+        List<Board> boardList = boardDAO.searchBoardList(param);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("pageInfo", pageInfo);
+
+        if(page==0) { return map; }
+
+        map.put("boardList", boardList);
+        map.put("type", type);
+        map.put("keyword", keyword);
+
+        return map;
+    }
 }

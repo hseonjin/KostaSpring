@@ -46,18 +46,6 @@
 		]]>
 	</delete>
 
-	<!-- 게시글 검색 -->
-	<select id="searchBoardList" parameterType="hashmap" resultType="Board">
-		select * from board
-		where ${type} like '%${keyword}%' order by num desc
-			limit #{row},10
-	</select>
-	<!-- 게시글 검색 - 게시글 개수(페이징처리) -->
-	<select id="searchBoardCount" parameterType="hashmap" resultType="Integer">
-		select count(*) from board
-		where ${type} like '%${keyword}%'
-	</select>
-
 	<!-- 조회수 -->
 	<update id="updateBoardViewCount" parameterType="Integer">
 		<![CDATA[
@@ -101,4 +89,15 @@
 		delete from file where num=#{num}
 		]]>
 	</delete>
+
+	<!-- 게시글 검색 -->
+	<select id="searchBoardList" parameterType="hashmap" resultType="Board">
+		select * from board
+			where ${type} like '%${keyword}%' order by num desc limit #{row},10
+	</select>
+	<!-- 게시글 검색 - 게시글 개수(페이징처리) -->
+	<select id="searchBoardCount" parameterType="hashmap" resultType="Integer">
+		select count(*) from board where ${type} like '%${keyword}%'
+	</select>
+
 </mapper>

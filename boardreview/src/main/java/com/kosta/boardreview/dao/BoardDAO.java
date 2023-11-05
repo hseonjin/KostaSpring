@@ -14,8 +14,6 @@ public interface BoardDAO {
     Board selectBoard(Integer num) throws Exception; // 게시글 상세
     void updateBoard(Board board) throws Exception; // 게시글 수정
     void deleteBoard(Integer num) throws Exception; // 게시글 삭제
-    List<Board> searchBoardList(Map<String, Object> param) throws Exception; // 검색 게시글 리스트
-    Integer searchBoardCount(Map<String, Object> param) throws Exception; // 검색 게시글 개수(페이징)
     void updateBoardViewCount(Integer num) throws Exception; // 조회수
     void insertFile(FileVO fileVO) throws Exception; // 파일 삽입
     FileVO selectFile(Integer num) throws Exception; // 파일 선택
@@ -28,4 +26,8 @@ public interface BoardDAO {
     Integer selectLikeCount(Integer num) throws Exception; // 좋아요수
     void plusBoardLikeCount(Integer num) throws Exception; // 좋아요수 +
     void minusBoardLikeCount(Integer num) throws Exception; // 좋아요수 -
+
+    // 검색 기능
+    List<Board> searchBoardList(Map<String, Object> param) throws Exception;
+    Integer searchBoardCount(Map<String, Object> param) throws Exception;
 }

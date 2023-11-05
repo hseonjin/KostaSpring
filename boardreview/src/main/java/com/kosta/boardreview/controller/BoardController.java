@@ -13,10 +13,13 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/") // 기본 루트
 public class BoardController {
+
     @Autowired
     private BoardService service;
     @Autowired
@@ -144,5 +147,27 @@ public class BoardController {
             e.printStackTrace();
             return "false";
         }
+    }
+
+    // 검색
+    @PostMapping("boardsearch") // 검색한 게시글 리스트 POST
+    public ModelAndView boardModify(@RequestParam("type") String type,
+                                    @RequestParam("keyword") String keyword,
+                                    @RequestParam(value="page", required=false, defaultValue = "1") Integer page) {
+        ModelAndView mav = new ModelAndView();
+        try {
+            if(type.equals("all")) { mav.setViewName("boardlist"); }
+            Map<String, Object> res = service.searchListByPage(type, keyword, page);
+            mav.addObject("boardList", res.get("boardList"));
+            // res 객체를 그대로 줬을 때 jsp에서 boardList를 인식하지 못하는 이슈가 발생
+            // res 객체에서 boardList 키값을 찾아 넘겨주도록 설정
+            mav.setViewName("boardlist");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mav.addObject("err", "검색 오류");
+            mav.setViewName("error");
+        }
+        return mav;
     }
 }

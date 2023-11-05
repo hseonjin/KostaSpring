@@ -44,15 +44,6 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.delete("mapper.board.deleteBoard", num);
     }
 
-    @Override
-    public List<Board> searchBoardList(Map<String, Object> param) throws Exception {
-        return sqlSession.selectList("mapper.board.searchBoardList", param);
-    }
-
-    @Override
-    public Integer searchBoardCount(Map<String, Object> param) throws Exception {
-        return sqlSession.selectOne("mapper.board.searchBoardCount",param);
-    }
 
     @Override
     public void updateBoardViewCount(Integer num) throws Exception {
@@ -90,7 +81,7 @@ public class BoardDAOImpl implements BoardDAO {
     public void deleteBoardLike(Map<String, Object> param) throws Exception {
         sqlSession.delete("mapper.boardlike.deleteBoardLike", param);
     }
-    
+
     @Override
     public Integer selectLikeCount(Integer num) throws Exception {
         return sqlSession.selectOne("mapper.board.selectLikeCount", num);
@@ -104,5 +95,16 @@ public class BoardDAOImpl implements BoardDAO {
     @Override
     public void minusBoardLikeCount(Integer num) throws Exception {
         sqlSession.update("mapper.board.minusBoardLikeCount",num);
+    }
+
+    // 검색 관련
+    @Override
+    public List<Board> searchBoardList(Map<String, Object> param) throws Exception {
+        return sqlSession.selectList("mapper.board.searchBoardList", param);
+    }
+
+    @Override
+    public Integer searchBoardCount(Map<String, Object> param) throws Exception {
+        return sqlSession.selectOne("mapper.board.searchBoardCount", param);
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 public interface BoardService {
     // 게시글 리스트
@@ -33,4 +34,6 @@ public interface BoardService {
     // 게시글 좋아요 선택/해제
     Boolean selectBoardLike(String userId, Integer boardNum) throws Exception;
 
+    // 검색한 게시글 리스트
+    Map<String, Object> searchListByPage(String type, String keyword, Integer page) throws Exception;
 }
