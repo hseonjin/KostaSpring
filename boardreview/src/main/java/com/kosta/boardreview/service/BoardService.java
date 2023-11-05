@@ -26,4 +26,11 @@ public interface BoardService {
 
     // 게시글 삭제
     void boardDelete(Integer num) throws Exception;
+
+    // 게시글 좋아요 체크 여부 (해당 게시글에 좋아요를 눌렀는지의 여부)
+    Boolean isBoardLike(String userId, Integer boardNum) throws Exception;
+
+    // 게시글 좋아요 선택/해제
+    Boolean selectBoardLike(String userId, Integer boardNum) throws Exception;
+
 }

@@ -17,13 +17,15 @@ public interface BoardDAO {
     List<Board> searchBoardList(Map<String, Object> param) throws Exception; // 검색 게시글 리스트
     Integer searchBoardCount(Map<String, Object> param) throws Exception; // 검색 게시글 개수(페이징)
     void updateBoardViewCount(Integer num) throws Exception; // 조회수
-    Integer selectLikeCount(Integer num) throws Exception; // 좋아요수
-    void plusBoardLikeCount(Integer num) throws Exception; // 좋아요수 +
-    void minusBoardLikeCount(Integer num) throws Exception; // 좋아요수 -
     void insertFile(FileVO fileVO) throws Exception; // 파일 삽입
     FileVO selectFile(Integer num) throws Exception; // 파일 선택
     void deleteFile(Integer num) throws Exception; // 파일 삭제
+
+    // 좋아요 관련 기능
     Integer selectBoardLike(Map<String, Object> param) throws Exception; // 좋아요 선택여부
     void insertBoardLike(Map<String, Object> param) throws Exception; // 좋아요 선택
     void deleteBoardLike(Map<String, Object> param) throws Exception; // 좋아요 삭제
+    Integer selectLikeCount(Integer num) throws Exception; // 좋아요수
+    void plusBoardLikeCount(Integer num) throws Exception; // 좋아요수 +
+    void minusBoardLikeCount(Integer num) throws Exception; // 좋아요수 -
 }

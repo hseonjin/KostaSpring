@@ -1,6 +1,7 @@
 package com.kosta.boardreview.controller;
 
 import com.kosta.boardreview.dto.Board;
+import com.kosta.boardreview.dto.Member;
 import com.kosta.boardreview.dto.PageInfo;
 import com.kosta.boardreview.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,11 @@ public class BoardController {
         try {
             Board board = service.boardDetail(num);
             mav.addObject("board", board);
+            Member user = (Member) session.getAttribute("user"); // 좋아요 기능 위해 사용
+            if(user!=null) {
+                Boolean select = service.isBoardLike(user.getId(), num);
+                mav.addObject("select", select);
+            }
             mav.setViewName("detailform");
         } catch (Exception e) {
             e.printStackTrace();
@@ -123,6 +129,20 @@ public class BoardController {
         } catch (Exception e){
             e.printStackTrace();
             return "error";
+        }
+    }
+
+    @PostMapping("like") // 좋아요 기능 POST (ajax 통신)
+    @ResponseBody // return 해주는 것이 view가 아닌 data
+    public String boardLike(@RequestParam("num") Integer num) {
+        Member user = (Member) session.getAttribute("user");
+        try {
+            if(user==null) throw new Exception("로그인이 필요한 기능입니다");
+            Boolean select = service.selectBoardLike(user.getId(), num);
+            return String.valueOf(select);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "false";
         }
     }
 }

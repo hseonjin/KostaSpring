@@ -59,20 +59,6 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.update("mapper.board.updateBoardViewCount", num);
     }
 
-    @Override
-    public Integer selectLikeCount(Integer num) throws Exception {
-        return sqlSession.selectOne("mapper.board.selectLikeCount", num);
-    }
-
-    @Override
-    public void plusBoardLikeCount(Integer num) throws Exception {
-        sqlSession.update("mapper.board.plusBoardLikeCount",num);
-    }
-
-    @Override
-    public void minusBoardLikeCount(Integer num) throws Exception {
-        sqlSession.update("mapper.board.minusBoardLikeCount",num);
-    }
 
     @Override
     public void insertFile(FileVO fileVO) throws Exception {
@@ -89,6 +75,7 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.delete("mapper.board.deleteFile", num);
     }
 
+    // 좋아요 관련
     @Override
     public Integer selectBoardLike(Map<String, Object> param) throws Exception {
         return sqlSession.selectOne("mapper.boardlike.selectBoardLike", param);
@@ -102,5 +89,20 @@ public class BoardDAOImpl implements BoardDAO {
     @Override
     public void deleteBoardLike(Map<String, Object> param) throws Exception {
         sqlSession.delete("mapper.boardlike.deleteBoardLike", param);
+    }
+    
+    @Override
+    public Integer selectLikeCount(Integer num) throws Exception {
+        return sqlSession.selectOne("mapper.board.selectLikeCount", num);
+    }
+
+    @Override
+    public void plusBoardLikeCount(Integer num) throws Exception {
+        sqlSession.update("mapper.board.plusBoardLikeCount",num);
+    }
+
+    @Override
+    public void minusBoardLikeCount(Integer num) throws Exception {
+        sqlSession.update("mapper.board.minusBoardLikeCount",num);
     }
 }

@@ -12,7 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -128,6 +130,33 @@ public class BoardServiceImpl implements BoardService {
                 boardDAO.deleteFile(Integer.parseInt(board.getFileurl()));
             }
             boardDAO.deleteBoard(num);
+        }
+    }
+
+    //  좋아요 - 해당 게시글에 특정 회원이 좋아요를 눌렀는지 여부 확인
+    @Override
+    public Boolean isBoardLike(String userId, Integer boardNum) throws Exception {
+        Map<String, Object> param = new HashMap<>();
+        param.put("id", userId);
+        param.put("num", boardNum);
+        Integer likeNum = boardDAO.selectBoardLike(param);
+        return likeNum==null ? false : true; // 좋아요 선택 여부가 없는 경우 false로 설정, 있는 경우 true로 설정
+    }
+
+    @Override
+    public Boolean selectBoardLike(String userId, Integer boardNum) throws Exception {
+        Map<String, Object> param = new HashMap<>();
+        param.put("id", userId);
+        param.put("num", boardNum);
+        Integer likeNum = boardDAO.selectBoardLike(param);
+        if(likeNum == null) { // 좋아요 선택 여부가 없는 경우
+            boardDAO.insertBoardLike(param); // 좋아요 추가
+            boardDAO.plusBoardLikeCount(boardNum); // 해당 게시글의 좋아요 수 +
+            return true;
+        } else {
+            boardDAO.deleteBoardLike(param);
+            boardDAO.minusBoardLikeCount(boardNum);
+            return false;
         }
     }
 }
