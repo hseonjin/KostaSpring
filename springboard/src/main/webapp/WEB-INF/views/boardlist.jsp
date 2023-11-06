@@ -52,9 +52,10 @@ table {border: 1px solid gray;}
 	
 	function callBtn(num) {
 		var keyword = $("#keyword").val();
-		if(keyword!=null && keyword.trim()!='') {
+		if(type!="all" && keyword!=null && keyword.trim()!='') {
 			$('#page').val(num);
 			$('#searchform').submit();
+			return false;
 		}
 	}
 </script>
@@ -70,7 +71,7 @@ table {border: 1px solid gray;}
         <a href="${contextPath}/boardwrite">글쓰기</a>
         </c:if>
         </h3>
-        <form action="search" method="post">
+        <form action="search" method="post" id="searchform">
         <input type="hidden" name="page" id="page" value="1">	
         <h5>
             <select name="type">
@@ -112,7 +113,7 @@ table {border: 1px solid gray;}
         <div id="emptyArea">
         	<c:choose> 
 				<c:when test="${pageInfo.curPage>1}">
-					<a href="${contextPath}/boardlist?page=${pageInfo.curPage-1}">&lt;</a>
+					<a href="${contextPath}/boardlist?page=${pageInfo.curPage-1}" onclick=" return callBtn(${i});return ${keyword==null};">&lt;</a>
 				</c:when>
 				<c:otherwise>
 					&lt;
@@ -122,10 +123,10 @@ table {border: 1px solid gray;}
 			<c:forEach begin="${pageInfo.startPage}" end="${pageInfo.endPage}" var="i">
 				<c:choose>
 					<c:when test="${res.pageInfo.curPage==i}">
-						<a href="${contextPath}/boardlist?page=${i}" class="select" onclick="callBtn(${i});return ${keyword==null};">${i}</a>&nbsp;
+						<a href="${contextPath}/boardlist?page=${i}" class="select" onclick="return callBtn(${i});return ${keyword==null};">${i}</a>&nbsp;
 					</c:when>
 					<c:otherwise>
-						<a href="${contextPath}/boardlist?page=${i}" class="btn" onclick="callBtn(${i});return ${keyword==null};">${i}</a>&nbsp;
+						<a href="${contextPath}/boardlist?page=${i}" class="btn" onclick=" return callBtn(${i});return ${keyword==null};">${i}</a>&nbsp;
 					</c:otherwise>
 					
 				</c:choose>
@@ -134,7 +135,7 @@ table {border: 1px solid gray;}
         	
 			<c:choose>  
 				<c:when test="${pageInfo.curPage<pageInfo.allPage}">
-					<a href="${contextPath}/boardlist?page=${pageInfo.curPage+1}">&gt;</a>
+					<a href="${contextPath}/boardlist?page=${pageInfo.curPage+1}" onclick=" return callBtn(${i});return ${keyword==null};">&gt;</a>
 				</c:when>
 				<c:otherwise>
 					&gt

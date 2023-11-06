@@ -75,6 +75,7 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public Board boardDetail(Integer num) throws Exception {
+        boardDAO.updateBoardViewCount(num);
         return boardDAO.selectBoard(num);
     }
 
@@ -120,7 +121,7 @@ public class BoardServiceImpl implements BoardService{
     public void removeBoard(Integer num) throws Exception {
         Board board = boardDAO.selectBoard(num);
         if(board!=null) {
-            if(board.getFileurl()!=null) { // 파일 없는 경우
+            if(board.getFileurl()!=null) { // 파일 있는 경우
                 boardDAO.deleteFile(Integer.parseInt(board.getFileurl()));
             }
             boardDAO.deleteBoard(num);
@@ -151,5 +152,28 @@ public class BoardServiceImpl implements BoardService{
             boardDAO.minusBoardLikeCount(boardNum);
             return false;
         }
+    }
+
+    @Override
+    public List<Board> searchListByPage(String type, String keyword, PageInfo pageInfo) throws Exception {
+        Map<String, Object> param = new HashMap<>();
+        param.put("type", type);
+        param.put("keyword", keyword);
+        param.put("pageInfo", pageInfo);
+        int searchCount = boardDAO.searchBoardCount(param);
+        if(searchCount==0) return null;
+
+        int allPage = (int)Math.ceil((double)searchCount/10);
+        int startPage = (pageInfo.getCurPage()-1)/10*10+1;
+        int endPage = Math.min(startPage+10-1, allPage);
+
+        pageInfo.setAllPage(allPage);
+        pageInfo.setStartPage(startPage);
+        pageInfo.setEndPage(endPage);
+        if(pageInfo.getCurPage()>allPage) pageInfo.setCurPage(allPage);
+
+        int row = (pageInfo.getCurPage()-1)*10+1;
+        param.put("row", row-1);
+        return boardDAO.searchBoardList(param);
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 public interface BoardService {
     List<Board> boardListByPage(PageInfo pageInfo) throws Exception; // 글 리스트 (+페이징처리)
@@ -18,4 +19,6 @@ public interface BoardService {
 
     Boolean isBoardLike(String userId, Integer boardNum) throws Exception; // 사용자가 글을 선택했는지 여부 가져오기
     Boolean selectBoardLike(String userId, Integer boardNum) throws Exception; // 사용자가 선택한 경우 처리하고 선택여부 가져오기
+
+    List<Board> searchListByPage(String type, String keyword, PageInfo pageInfo) throws Exception; // 검색
 }
