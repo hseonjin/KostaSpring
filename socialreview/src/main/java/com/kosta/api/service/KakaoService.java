@@ -1,8 +1,10 @@
 package com.kosta.api.service;
 
-import com.kosta.api.dao.UserInfo;
+import com.kosta.api.dao.UserDAO;
+import com.kosta.api.dto.UserInfo;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -12,6 +14,8 @@ import java.net.URL;
 
 @Service
 public class KakaoService {
+    @Autowired
+    private UserDAO userDAO;
     public String getToken(String code) throws Exception { // get 메서드를 통해 받아온 인가 코드 사용
         // 요청 파라미터
         String client_id = "{client_id}";
@@ -117,7 +121,12 @@ public class KakaoService {
 
     public UserInfo kakaoLogin(String code) throws Exception {
         String token = getToken(code);
-        UserInfo userInfo = getUserInfo(token);
-        return userInfo;
+        UserInfo kakaoInfo = getUserInfo(token);
+        UserInfo userInfo = userDAO.selectUser(kakaoInfo.getId());
+        if(userInfo==null) {
+            userDAO.insertUserByKakao(kakaoInfo);
+            userInfo = kakaoInfo;
+        }
+        return kakaoInfo;
     }
 }

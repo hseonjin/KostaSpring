@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-</beans>
+<mapper namespace="mapper.user">
+    <insert id="insertUser" parameterType="UserInfo">
+		<![CDATA[
+        insert into users (id, password, nickname, email, profile_image, address)
+            values (#{id},#{password},#{nickname},#{email},#{profile_image},#{address})
+        ]]>
+	</insert>
+
+    <insert id="insertUserByKakao" parameterType="UserInfo">
+		<![CDATA[
+        insert into users (id, nickname, email, profileImage)
+        values (#{id},#{nickname},#{email},#{profileImage})
+        ]]>
+	</insert>
+
+    <insert id="insertUserByNaver" parameterType="UserInfo">
+		<![CDATA[
+        insert into users (id, nickname, email, profileImage)
+        values (#{id},#{nickname},#{email},#{profileImage})
+        ]]>
+	</insert>
+
+    <select id="selectUser" parameterType="String" resultType="UserInfo">
+		<![CDATA[
+        select * from users where id=#{id}
+        ]]>
+	</select>
+
+    <update id="updateUser" parameterType="UserInfo">
+		<![CDATA[
+
+        ]]>
+	</update>
+
+
+</mapper>

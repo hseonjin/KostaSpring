@@ -24,26 +24,26 @@
     <context:component-scan base-package="com.kosta.api" />
 
 
-<!--    <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
-<!--        <beans:property name="driverClassName"><beans:value>org.mariadb.jdbc.Driver</beans:value></beans:property>-->
-<!--        <beans:property name="url"><beans:value>jdbc:mariadb://localhost:3307/boardreview</beans:value></beans:property>-->
-<!--        <beans:property name="username"><beans:value>root</beans:value></beans:property>-->
-<!--        <beans:property name="password"><beans:value>mimi2818</beans:value></beans:property>-->
-<!--    </beans:bean>-->
+    <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <beans:property name="driverClassName"><beans:value>org.mariadb.jdbc.Driver</beans:value></beans:property>
+        <beans:property name="url"><beans:value>jdbc:mariadb://localhost:3307/boardreview</beans:value></beans:property>
+        <beans:property name="username"><beans:value>root</beans:value></beans:property>
+        <beans:property name="password"><beans:value>mimi2818</beans:value></beans:property>
+    </beans:bean>
 
-<!--    <beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
-<!--        <beans:property name="dataSource" ref="dataSource" />-->
-<!--        <beans:property name="mapperLocations">-->
-<!--            <beans:list>-->
-<!--                <beans:value>classpath*:mapper/*.xml</beans:value>-->
-<!--            </beans:list>-->
-<!--        </beans:property>-->
-<!--        <beans:property name="typeAliasesPackage">-->
-<!--            <beans:value>com.kosta.api.dto</beans:value>-->
-<!--        </beans:property>-->
-<!--    </beans:bean>-->
+    <beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <beans:property name="dataSource" ref="dataSource" />
+        <beans:property name="mapperLocations">
+            <beans:list>
+                <beans:value>classpath*:mapper/*.xml</beans:value>
+            </beans:list>
+        </beans:property>
+        <beans:property name="typeAliasesPackage">
+            <beans:value>com.kosta.api.dto</beans:value>
+        </beans:property>
+    </beans:bean>
 
-<!--    <beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">-->
-<!--        <beans:constructor-arg index="0" ref="sqlSessionFactory" />-->
-<!--    </beans:bean>-->
+    <beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <beans:constructor-arg index="0" ref="sqlSessionFactory" />
+    </beans:bean>
 </beans:beans>

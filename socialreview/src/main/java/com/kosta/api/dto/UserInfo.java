@@ -1,4 +1,4 @@
-package com.kosta.api.dao;
+package com.kosta.api.dto;
 
 public class UserInfo {
     private String id;

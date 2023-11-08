@@ -1,6 +1,6 @@
 package com.kosta.api.controller;
 
-import com.kosta.api.dao.UserInfo;
+import com.kosta.api.dto.UserInfo;
 import com.kosta.api.service.KakaoService;
 import com.kosta.api.service.NaverService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/")
-public class Login {
+public class LoginController {
     @Autowired
     private KakaoService kakaoService;
     @Autowired

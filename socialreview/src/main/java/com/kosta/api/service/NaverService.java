@@ -1,9 +1,11 @@
 package com.kosta.api.service;
 
-import com.kosta.api.dao.Token;
-import com.kosta.api.dao.UserInfo;
+import com.kosta.api.dao.UserDAO;
+import com.kosta.api.dto.Token;
+import com.kosta.api.dto.UserInfo;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -14,6 +16,8 @@ import java.net.URLEncoder;
 
 @Service
 public class NaverService {
+    @Autowired
+    private UserDAO userDAO;
     public Token getToken(String code, String state) throws Exception {
         String client_id = "{client_id}";
         String client_secret = "{client_secret}";
@@ -101,7 +105,12 @@ public class NaverService {
 
     public UserInfo naverLogin(String code, String state) throws Exception {
         Token token = getToken(code, state);
-        UserInfo userInfo = getUserInfo(token);
+        UserInfo naverInfo = getUserInfo(token);
+        UserInfo userInfo = userDAO.selectUser(naverInfo.getId());
+        if(userInfo==null) {
+            userDAO.insertUserByKakao(naverInfo);
+            userInfo = naverInfo;
+        }
         return userInfo;
     }
 }
